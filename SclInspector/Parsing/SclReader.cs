@@ -63,7 +63,7 @@ public class SclReader
                             ReadRequiredAttribute(logicalDevice, "inst"),
                             nodePrefix,
                             ReadRequiredAttribute(node, "lnClass"),
-                            (string?)node.Attribute("inst")));
+                            (string?)node.Attribute("inst")?? throw new InvalidDataException("Logical node instance is missing")));
                     }
                 }
             }

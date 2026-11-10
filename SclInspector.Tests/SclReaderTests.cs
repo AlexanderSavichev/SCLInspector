@@ -189,7 +189,7 @@ public class SclReaderTests
         devices.AddRange(sclReader.ReadIeds(xml));
         var resultAnalyserList = analyser.SummarizeByManufacturer(devices);
         Assert.NotEmpty(resultAnalyserList);
-        Assert.Equal(1, resultAnalyserList.Count);
+        Assert.Single(resultAnalyserList);
         Assert.Equal("ABB", resultAnalyserList[0].Manufacturer);
         Assert.Contains(resultAnalyserList, result => result.Enabled == 0);
         

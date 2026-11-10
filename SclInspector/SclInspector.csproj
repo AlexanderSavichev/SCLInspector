@@ -1,10 +1,8 @@
-﻿<!-- Файл проекта C#. Аналог pom.xml (Maven) или build.gradle (Gradle). -->
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <!-- Exe = консольная программа с точкой входа (как jar с Main-Class) -->
         <OutputType>Exe</OutputType>
-        <!-- Версия платформы .NET, как версия JDK -->
         <TargetFramework>net10.0</TargetFramework>
         <!-- Частые using подключаются автоматически (System, System.IO, System.Linq...) -->
         <ImplicitUsings>enable</ImplicitUsings>
