@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SCL version="2007" revision="B" release="4" xmlns="http://www.iec.ch/61850/2003/SCL">
+    <Header id="PPG-725" version="1" revision="1" toolID="PowerplantGenerator" nameStructure="IEDName">
+        <Text>SSD export of generation result #725 (GA-VL_35KV)</Text>
+    </Header>
+    <Substation name="SS313" desc="Generated substation 35 kV/10 kV">
+        <Private type="IDU-Generator">generator=PowerplantGenerator; variant=GA-VL_35KV; generatedAt=2026-08-31 10:14:14</Private>
+        <PowerTransformer name="T1" type="PTR" desc="ТРДНС-25000/35">
+            <Private type="IDU-SLD-WGS84">30.313041 59.922105</Private>
+            <LNode iedName="None" lnClass="PTRC" lnInst="1" desc="Transformer protection trip conditioning"/>
+            <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="ANSI 51 МТЗ (ВН) Ipickup=955A t=1.5s"/>
+            <LNode iedName="None" lnClass="PIOC" lnInst="1" desc="ANSI 50 Токовая отсечка (ВН) Ipickup=4044A t=0.0s"/>
+            <LNode iedName="None" lnClass="PDIF" lnInst="1" desc="ANSI 87T Дифзащита (ВН/НН) Ipickup=124A t=0.0s"/>
+            <LNode iedName="None" lnClass="PTTR" lnInst="1" desc="ANSI 49 Защита от перегрузки (ВН) Ipickup=412A"/>
+            <LNode iedName="None" lnClass="PTOC" lnInst="2" desc="ANSI 51 МТЗ ввода/секц. НН (НН) Ipickup=1671A t=1.0s"/>
+            <TransformerWinding name="W1" type="PTW" desc="HV winding">
+                <Terminal connectivityNode="SS313/HV/QT1/T1_HV" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="T1_HV"/>
+            </TransformerWinding>
+            <TransformerWinding name="W2" type="PTW" desc="LV winding">
+                <Terminal connectivityNode="SS313/LV/QT1/T1_LV" substationName="SS313" voltageLevelName="LV" bayName="QT1" cNodeName="T1_LV"/>
+            </TransformerWinding>
+        </PowerTransformer>
+        <PowerTransformer name="T2" type="PTR" desc="ТРДНС-25000/35">
+            <Private type="IDU-SLD-WGS84">30.312942 59.922195</Private>
+            <LNode iedName="None" lnClass="PTRC" lnInst="1" desc="Transformer protection trip conditioning"/>
+            <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="ANSI 51 МТЗ (ВН) Ipickup=955A t=1.5s"/>
+            <LNode iedName="None" lnClass="PIOC" lnInst="1" desc="ANSI 50 Токовая отсечка (ВН) Ipickup=4044A t=0.0s"/>
+            <LNode iedName="None" lnClass="PDIF" lnInst="1" desc="ANSI 87T Дифзащита (ВН/НН) Ipickup=124A t=0.0s"/>
+            <LNode iedName="None" lnClass="PTTR" lnInst="1" desc="ANSI 49 Защита от перегрузки (ВН) Ipickup=412A"/>
+            <LNode iedName="None" lnClass="PTOC" lnInst="2" desc="ANSI 51 МТЗ ввода/секц. НН (НН) Ipickup=1671A t=1.0s"/>
+            <TransformerWinding name="W1" type="PTW" desc="HV winding">
+                <Terminal connectivityNode="SS313/HV/QT2/T2_HV" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="T2_HV"/>
+            </TransformerWinding>
+            <TransformerWinding name="W2" type="PTW" desc="LV winding">
+                <Terminal connectivityNode="SS313/LV/QT2/T2_LV" substationName="SS313" voltageLevelName="LV" bayName="QT2" cNodeName="T2_LV"/>
+            </TransformerWinding>
+        </PowerTransformer>
+        <VoltageLevel name="HV" desc="35 kV" nomFreq="50" numPhases="3">
+            <Voltage unit="V" multiplier="k">35</Voltage>
+            <Bay name="W1" desc="Busbar section 1,35 kV">
+                <ConnectivityNode name="BB" pathName="SS313/HV/W1/BB" desc="Busbar section 1,35 kV"/>
+            </Bay>
+            <Bay name="W2" desc="Busbar section 2,35 kV">
+                <ConnectivityNode name="BB" pathName="SS313/HV/W2/BB" desc="Busbar section 2,35 kV"/>
+            </Bay>
+            <Bay name="Q1" desc="Line feeder PEP-1">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QL" type="IFL" desc="Incoming line PEP-1">
+                    <Private type="IDU-SLD-WGS84">30.313371 59.922314</Private>
+                    <Terminal connectivityNode="SS313/HV/Q1/n_line" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n_line"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QSL" type="DIS" desc="РДЗ-35/1000_W1G">
+                    <Private type="IDU-SLD-WGS84">30.313339 59.922306</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/Q1/n_line" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n_line"/>
+                    <Terminal connectivityNode="SS313/HV/Q1/n1" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QA" type="CBR" desc="Вакуумный 35кВ 31.5кА_W1G">
+                    <Private type="IDU-SLD-WGS84">30.313277 59.922288</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/Q1/n1" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n1"/>
+                    <Terminal connectivityNode="SS313/HV/Q1/n2" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n2"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Feeder CT">
+                    <Private type="IDU-SLD-WGS84">30.313277 59.922288</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/HV/Q1/n2" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n2"/>
+                    <Terminal connectivityNode="SS313/HV/Q1/n3" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n3"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QSB" type="DIS" desc="РДЗ-35/1000_W1G">
+                    <Private type="IDU-SLD-WGS84">30.313232 59.922276</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="2"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="2"/>
+                    <Terminal connectivityNode="SS313/HV/Q1/n3" substationName="SS313" voltageLevelName="HV" bayName="Q1" cNodeName="n3"/>
+                    <Terminal connectivityNode="SS313/HV/W1/BB" substationName="SS313" voltageLevelName="HV" bayName="W1" cNodeName="BB"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_line" pathName="SS313/HV/Q1/n_line" desc="Line connection node"/>
+                <ConnectivityNode name="n1" pathName="SS313/HV/Q1/n1" desc="Between line disconnector and breaker"/>
+                <ConnectivityNode name="n2" pathName="SS313/HV/Q1/n2" desc="Between breaker and CT"/>
+                <ConnectivityNode name="n3" pathName="SS313/HV/Q1/n3" desc="Between CT and busbar disconnector"/>
+            </Bay>
+            <Bay name="Q2" desc="Line feeder PEP-2">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QL" type="IFL" desc="Incoming line PEP-2">
+                    <Private type="IDU-SLD-WGS84">30.313470 59.922225</Private>
+                    <Terminal connectivityNode="SS313/HV/Q2/n_line" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n_line"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QSL" type="DIS" desc="РДЗ-35/1000_W2G">
+                    <Private type="IDU-SLD-WGS84">30.313439 59.922216</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/Q2/n_line" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n_line"/>
+                    <Terminal connectivityNode="SS313/HV/Q2/n1" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QA" type="CBR" desc="Вакуумный 35кВ 31.5кА_W2G">
+                    <Private type="IDU-SLD-WGS84">30.313376 59.922199</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/Q2/n1" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n1"/>
+                    <Terminal connectivityNode="SS313/HV/Q2/n2" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n2"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Feeder CT">
+                    <Private type="IDU-SLD-WGS84">30.313376 59.922199</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/HV/Q2/n2" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n2"/>
+                    <Terminal connectivityNode="SS313/HV/Q2/n3" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n3"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QSB" type="DIS" desc="РДЗ-35/1000_W2G">
+                    <Private type="IDU-SLD-WGS84">30.313331 59.922186</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="2"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="2"/>
+                    <Terminal connectivityNode="SS313/HV/Q2/n3" substationName="SS313" voltageLevelName="HV" bayName="Q2" cNodeName="n3"/>
+                    <Terminal connectivityNode="SS313/HV/W2/BB" substationName="SS313" voltageLevelName="HV" bayName="W2" cNodeName="BB"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_line" pathName="SS313/HV/Q2/n_line" desc="Line connection node"/>
+                <ConnectivityNode name="n1" pathName="SS313/HV/Q2/n1" desc="Between line disconnector and breaker"/>
+                <ConnectivityNode name="n2" pathName="SS313/HV/Q2/n2" desc="Between breaker and CT"/>
+                <ConnectivityNode name="n3" pathName="SS313/HV/Q2/n3" desc="Between CT and busbar disconnector"/>
+            </Bay>
+            <Bay name="QT1" desc="Transformer T1 bay (HV)">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QSB" type="DIS" desc="РДЗ-35/1000_T-1">
+                    <Private type="IDU-SLD-WGS84">30.313223 59.922156</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/W1/BB" substationName="SS313" voltageLevelName="HV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/HV/QT1/n1" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QA" type="CBR" desc="Вакуумный 35кВ 31.5кА_T-1">
+                    <Private type="IDU-SLD-WGS84">30.313191 59.922147</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/QT1/n1" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="n1"/>
+                    <Terminal connectivityNode="SS313/HV/QT1/n2" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="n2"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Transformer T1 CT">
+                    <Private type="IDU-SLD-WGS84">30.313191 59.922147</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/HV/QT1/n2" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="n2"/>
+                    <Terminal connectivityNode="SS313/HV/QT1/n3" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="n3"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QST" type="DIS" desc="РДЗ-35/1000_T-1">
+                    <Private type="IDU-SLD-WGS84">30.313159 59.922138</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="2"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="2"/>
+                    <Terminal connectivityNode="SS313/HV/QT1/n3" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="n3"/>
+                    <Terminal connectivityNode="SS313/HV/QT1/T1_HV" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="T1_HV"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="FV" type="SAR" desc="ОПН-П-35/40.5 УХЛ1_T-1">
+                    <Private type="IDU-SLD-WGS84">30.313113 59.922125</Private>
+                    <Terminal connectivityNode="SS313/HV/QT1/T1_HV" substationName="SS313" voltageLevelName="HV" bayName="QT1" cNodeName="T1_HV"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n1" pathName="SS313/HV/QT1/n1" desc="Between busbar disconnector and breaker"/>
+                <ConnectivityNode name="n2" pathName="SS313/HV/QT1/n2" desc="Between breaker and CT"/>
+                <ConnectivityNode name="n3" pathName="SS313/HV/QT1/n3" desc="Between CT and transformer disconnector"/>
+                <ConnectivityNode name="T1_HV" pathName="SS313/HV/QT1/T1_HV" desc="Transformer T1 HV terminal"/>
+            </Bay>
+            <Bay name="QT2" desc="Transformer T2 bay (HV)">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QSB" type="DIS" desc="РДЗ-35/1000_T-2">
+                    <Private type="IDU-SLD-WGS84">30.313124 59.922246</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/W2/BB" substationName="SS313" voltageLevelName="HV" bayName="W2" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/HV/QT2/n1" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QA" type="CBR" desc="Вакуумный 35кВ 31.5кА_T-2">
+                    <Private type="IDU-SLD-WGS84">30.313092 59.922237</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/QT2/n1" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="n1"/>
+                    <Terminal connectivityNode="SS313/HV/QT2/n2" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="n2"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Transformer T2 CT">
+                    <Private type="IDU-SLD-WGS84">30.313092 59.922237</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/HV/QT2/n2" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="n2"/>
+                    <Terminal connectivityNode="SS313/HV/QT2/n3" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="n3"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QST" type="DIS" desc="РДЗ-35/1000_T-2">
+                    <Private type="IDU-SLD-WGS84">30.313060 59.922228</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="2"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="2"/>
+                    <Terminal connectivityNode="SS313/HV/QT2/n3" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="n3"/>
+                    <Terminal connectivityNode="SS313/HV/QT2/T2_HV" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="T2_HV"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="FV" type="SAR" desc="ОПН-П-35/40.5 УХЛ1_T-2">
+                    <Private type="IDU-SLD-WGS84">30.313014 59.922215</Private>
+                    <Terminal connectivityNode="SS313/HV/QT2/T2_HV" substationName="SS313" voltageLevelName="HV" bayName="QT2" cNodeName="T2_HV"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n1" pathName="SS313/HV/QT2/n1" desc="Between busbar disconnector and breaker"/>
+                <ConnectivityNode name="n2" pathName="SS313/HV/QT2/n2" desc="Between breaker and CT"/>
+                <ConnectivityNode name="n3" pathName="SS313/HV/QT2/n3" desc="Between CT and transformer disconnector"/>
+                <ConnectivityNode name="T2_HV" pathName="SS313/HV/QT2/T2_HV" desc="Transformer T2 HV terminal"/>
+            </Bay>
+            <Bay name="QC" desc="HV bus coupler">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="Bus coupler overcurrent"/>
+                <ConductingEquipment name="QSA" type="DIS" desc="РДЗ-35/1000_SEC_1">
+                    <Private type="IDU-SLD-WGS84">30.313249 59.922197</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/W1/BB" substationName="SS313" voltageLevelName="HV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/HV/QC/n1" substationName="SS313" voltageLevelName="HV" bayName="QC" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QA" type="CBR" desc="Вакуумный 35кВ 31.5кА_SEC">
+                    <Private type="IDU-SLD-WGS84">30.313228 59.922216</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/QC/n1" substationName="SS313" voltageLevelName="HV" bayName="QC" cNodeName="n1"/>
+                    <Terminal connectivityNode="SS313/HV/QC/n2" substationName="SS313" voltageLevelName="HV" bayName="QC" cNodeName="n2"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Bus coupler CT">
+                    <Private type="IDU-SLD-WGS84">30.313228 59.922216</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/HV/QC/n2" substationName="SS313" voltageLevelName="HV" bayName="QC" cNodeName="n2"/>
+                    <Terminal connectivityNode="SS313/HV/QC/n3" substationName="SS313" voltageLevelName="HV" bayName="QC" cNodeName="n3"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QSB" type="DIS" desc="РДЗ-35/1000_SEC_2">
+                    <Private type="IDU-SLD-WGS84">30.313207 59.922235</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="2"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="2"/>
+                    <Terminal connectivityNode="SS313/HV/QC/n3" substationName="SS313" voltageLevelName="HV" bayName="QC" cNodeName="n3"/>
+                    <Terminal connectivityNode="SS313/HV/W2/BB" substationName="SS313" voltageLevelName="HV" bayName="W2" cNodeName="BB"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n1" pathName="SS313/HV/QC/n1" desc="Between section-1 disconnector and breaker"/>
+                <ConnectivityNode name="n2" pathName="SS313/HV/QC/n2" desc="Between breaker and CT"/>
+                <ConnectivityNode name="n3" pathName="SS313/HV/QC/n3" desc="Between CT and section-2 disconnector"/>
+            </Bay>
+            <Bay name="QV1" desc="Voltage transformer bay, section 1">
+                <ConductingEquipment name="QS" type="DIS" desc="РДЗ-35/1000_VT_1">
+                    <Private type="IDU-SLD-WGS84">30.313302 59.922149</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/W1/BB" substationName="SS313" voltageLevelName="HV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/HV/QV1/n1" substationName="SS313" voltageLevelName="HV" bayName="QV1" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TV" type="VTR" desc="ЗНОЛ-35_1">
+                    <Private type="IDU-SLD-WGS84">30.313316 59.922136</Private>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/HV/QV1/n1" substationName="SS313" voltageLevelName="HV" bayName="QV1" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n1" pathName="SS313/HV/QV1/n1" desc="VT connection node"/>
+            </Bay>
+            <Bay name="QV2" desc="Voltage transformer bay, section 2">
+                <ConductingEquipment name="QS" type="DIS" desc="РДЗ-35/1000_VT_2">
+                    <Private type="IDU-SLD-WGS84">30.313154 59.922283</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/HV/W2/BB" substationName="SS313" voltageLevelName="HV" bayName="W2" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/HV/QV2/n1" substationName="SS313" voltageLevelName="HV" bayName="QV2" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TV" type="VTR" desc="ЗНОЛ-35_2">
+                    <Private type="IDU-SLD-WGS84">30.313140 59.922296</Private>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/HV/QV2/n1" substationName="SS313" voltageLevelName="HV" bayName="QV2" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n1" pathName="SS313/HV/QV2/n1" desc="VT connection node"/>
+            </Bay>
+        </VoltageLevel>
+        <VoltageLevel name="LV" desc="10 kV" nomFreq="50" numPhases="3">
+            <Voltage unit="V" multiplier="k">10</Voltage>
+            <Bay name="W1" desc="Busbar section 1,10 kV">
+                <ConnectivityNode name="BB" pathName="SS313/LV/W1/BB" desc="Busbar section 1,10 kV"/>
+            </Bay>
+            <Bay name="W2" desc="Busbar section 2,10 kV">
+                <ConnectivityNode name="BB" pathName="SS313/LV/W2/BB" desc="Busbar section 2,10 kV"/>
+            </Bay>
+            <Bay name="QT1" desc="Transformer T1 bay (LV)">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="TA" type="CTR" desc="LV incomer CT, T1">
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/QT1/T1_LV" substationName="SS313" voltageLevelName="LV" bayName="QT1" cNodeName="T1_LV"/>
+                    <Terminal connectivityNode="SS313/LV/QT1/n_ct" substationName="SS313" voltageLevelName="LV" bayName="QT1" cNodeName="n_ct"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QA" type="CBR" desc="LV incomer breaker, T1">
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="LV incomer overcurrent"/>
+                    <Terminal connectivityNode="SS313/LV/QT1/n_ct" substationName="SS313" voltageLevelName="LV" bayName="QT1" cNodeName="n_ct"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="T1_LV" pathName="SS313/LV/QT1/T1_LV" desc="Transformer T1 LV terminal"/>
+                <ConnectivityNode name="n_ct" pathName="SS313/LV/QT1/n_ct" desc="Between LV terminal and incomer breaker"/>
+            </Bay>
+            <Bay name="QT2" desc="Transformer T2 bay (LV)">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="TA" type="CTR" desc="LV incomer CT, T2">
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/QT2/T2_LV" substationName="SS313" voltageLevelName="LV" bayName="QT2" cNodeName="T2_LV"/>
+                    <Terminal connectivityNode="SS313/LV/QT2/n_ct" substationName="SS313" voltageLevelName="LV" bayName="QT2" cNodeName="n_ct"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QA" type="CBR" desc="LV incomer breaker, T2">
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="LV incomer overcurrent"/>
+                    <Terminal connectivityNode="SS313/LV/QT2/n_ct" substationName="SS313" voltageLevelName="LV" bayName="QT2" cNodeName="n_ct"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="T2_LV" pathName="SS313/LV/QT2/T2_LV" desc="Transformer T2 LV terminal"/>
+                <ConnectivityNode name="n_ct" pathName="SS313/LV/QT2/n_ct" desc="Between LV terminal and incomer breaker"/>
+            </Bay>
+            <Bay name="K1_SV1" desc="LV bus section breaker">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="Bus coupler overcurrent"/>
+                <ConductingEquipment name="QA" type="CBR" desc="LV bus section breaker">
+                    <Private type="IDU-SLD-WGS84">30.312670 59.922045</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K1_SV1/n1" substationName="SS313" voltageLevelName="LV" bayName="K1_SV1" cNodeName="n1"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Bus coupler CT">
+                    <Private type="IDU-SLD-WGS84">30.312670 59.922045</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/K1_SV1/n1" substationName="SS313" voltageLevelName="LV" bayName="K1_SV1" cNodeName="n1"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n1" pathName="SS313/LV/K1_SV1/n1" desc="Between breaker and CT"/>
+            </Bay>
+            <Bay name="K1_F1" desc="Outgoing feeder outgoing_06572bc1-5d68-409e-8212-f57a3d45ec9d">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QA" type="CBR" desc="Feeder breaker outgoing_06572bc1-5d68-409e-8212-f57a3d45ec9d">
+                    <Private type="IDU-SLD-WGS84">30.312681 59.922039</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="Feeder overcurrent"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K1_F1/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K1_F1" cNodeName="n_ct"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Feeder CT outgoing_06572bc1-5d68-409e-8212-f57a3d45ec9d">
+                    <Private type="IDU-SLD-WGS84">30.312681 59.922039</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/K1_F1/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K1_F1" cNodeName="n_ct"/>
+                    <Terminal connectivityNode="SS313/LV/K1_F1/n_out" substationName="SS313" voltageLevelName="LV" bayName="K1_F1" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QL" type="IFL" desc="Outgoing line outgoing_06572bc1-5d68-409e-8212-f57a3d45ec9d">
+                    <Private type="IDU-SLD-WGS84">30.312681 59.922039</Private>
+                    <Terminal connectivityNode="SS313/LV/K1_F1/n_out" substationName="SS313" voltageLevelName="LV" bayName="K1_F1" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_ct" pathName="SS313/LV/K1_F1/n_ct" desc="Between breaker and feeder CT"/>
+                <ConnectivityNode name="n_out" pathName="SS313/LV/K1_F1/n_out" desc="Feeder connection node"/>
+            </Bay>
+            <Bay name="K1_IN1" desc="Switchgear incomer bay, section 1">
+                <ConductingEquipment name="QA" type="CBR" desc="Switchgear incomer incomer_8496fda2-1aeb-4b55-909b-df5eeb6d53f6">
+                    <Private type="IDU-SLD-WGS84">30.312691 59.922033</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K1_IN1/n_load" substationName="SS313" voltageLevelName="LV" bayName="K1_IN1" cNodeName="n_load"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_load" pathName="SS313/LV/K1_IN1/n_load" desc="Incomer connection node"/>
+            </Bay>
+            <Bay name="K1_TN1" desc="LV VT bay, section 1">
+                <ConductingEquipment name="TV" type="VTR" desc="LV VT vt_639e2ca3-923c-4055-98b5-e1b8e9c0da92">
+                    <Private type="IDU-SLD-WGS84">30.312702 59.922027</Private>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                </ConductingEquipment>
+            </Bay>
+            <Bay name="K1_F2" desc="Outgoing feeder outgoing_16429113-9ceb-4dcb-a28b-2524a326f060">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QA" type="CBR" desc="Feeder breaker outgoing_16429113-9ceb-4dcb-a28b-2524a326f060">
+                    <Private type="IDU-SLD-WGS84">30.312711 59.922021</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="Feeder overcurrent"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K1_F2/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K1_F2" cNodeName="n_ct"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Feeder CT outgoing_16429113-9ceb-4dcb-a28b-2524a326f060">
+                    <Private type="IDU-SLD-WGS84">30.312711 59.922021</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/K1_F2/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K1_F2" cNodeName="n_ct"/>
+                    <Terminal connectivityNode="SS313/LV/K1_F2/n_out" substationName="SS313" voltageLevelName="LV" bayName="K1_F2" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QL" type="IFL" desc="Outgoing line outgoing_16429113-9ceb-4dcb-a28b-2524a326f060">
+                    <Private type="IDU-SLD-WGS84">30.312711 59.922021</Private>
+                    <Terminal connectivityNode="SS313/LV/K1_F2/n_out" substationName="SS313" voltageLevelName="LV" bayName="K1_F2" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_ct" pathName="SS313/LV/K1_F2/n_ct" desc="Between breaker and feeder CT"/>
+                <ConnectivityNode name="n_out" pathName="SS313/LV/K1_F2/n_out" desc="Feeder connection node"/>
+            </Bay>
+            <Bay name="K1_R1" desc="Spare bay spare_3e9e70ab-f658-415a-ab3c-f60fe2abe6d5">
+                <ConductingEquipment name="QA" type="CBR" desc="Spare breaker spare_3e9e70ab-f658-415a-ab3c-f60fe2abe6d5">
+                    <Private type="IDU-SLD-WGS84">30.312720 59.922016</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K1_R1/n_res" substationName="SS313" voltageLevelName="LV" bayName="K1_R1" cNodeName="n_res"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_res" pathName="SS313/LV/K1_R1/n_res" desc="Spare connection node"/>
+            </Bay>
+            <Bay name="K2_SD1" desc="LV bus section disconnector">
+                <ConductingEquipment name="QS" type="DIS" desc="LV bus section disconnector">
+                    <Private type="IDU-SLD-WGS84">30.312613 59.922079</Private>
+                    <LNode iedName="None" lnClass="XSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CILO" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/LV/W1/BB" substationName="SS313" voltageLevelName="LV" bayName="W1" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                </ConductingEquipment>
+            </Bay>
+            <Bay name="K2_F1" desc="Outgoing feeder outgoing_3c3a86f3-6056-4fa6-a3da-50e43b79a73e">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QA" type="CBR" desc="Feeder breaker outgoing_3c3a86f3-6056-4fa6-a3da-50e43b79a73e">
+                    <Private type="IDU-SLD-WGS84">30.312602 59.922086</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="Feeder overcurrent"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K2_F1/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K2_F1" cNodeName="n_ct"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Feeder CT outgoing_3c3a86f3-6056-4fa6-a3da-50e43b79a73e">
+                    <Private type="IDU-SLD-WGS84">30.312602 59.922086</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/K2_F1/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K2_F1" cNodeName="n_ct"/>
+                    <Terminal connectivityNode="SS313/LV/K2_F1/n_out" substationName="SS313" voltageLevelName="LV" bayName="K2_F1" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QL" type="IFL" desc="Outgoing line outgoing_3c3a86f3-6056-4fa6-a3da-50e43b79a73e">
+                    <Private type="IDU-SLD-WGS84">30.312602 59.922086</Private>
+                    <Terminal connectivityNode="SS313/LV/K2_F1/n_out" substationName="SS313" voltageLevelName="LV" bayName="K2_F1" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_ct" pathName="SS313/LV/K2_F1/n_ct" desc="Between breaker and feeder CT"/>
+                <ConnectivityNode name="n_out" pathName="SS313/LV/K2_F1/n_out" desc="Feeder connection node"/>
+            </Bay>
+            <Bay name="K2_IN1" desc="Switchgear incomer bay, section 2">
+                <ConductingEquipment name="QA" type="CBR" desc="Switchgear incomer incomer_d20326f6-6fa0-4e3c-8071-72da40ec9ff4">
+                    <Private type="IDU-SLD-WGS84">30.312592 59.922092</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K2_IN1/n_load" substationName="SS313" voltageLevelName="LV" bayName="K2_IN1" cNodeName="n_load"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_load" pathName="SS313/LV/K2_IN1/n_load" desc="Incomer connection node"/>
+            </Bay>
+            <Bay name="K2_TN1" desc="LV VT bay, section 2">
+                <ConductingEquipment name="TV" type="VTR" desc="LV VT vt_2af77cb7-8dc7-4f2a-99a9-4adb3739230f">
+                    <Private type="IDU-SLD-WGS84">30.312582 59.922098</Private>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TVTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                </ConductingEquipment>
+            </Bay>
+            <Bay name="K2_F2" desc="Outgoing feeder outgoing_98a58938-64eb-498a-8d0c-11fa4e68a0b3">
+                <LNode iedName="None" lnClass="MMXU" lnInst="1"/>
+                <ConductingEquipment name="QA" type="CBR" desc="Feeder breaker outgoing_98a58938-64eb-498a-8d0c-11fa4e68a0b3">
+                    <Private type="IDU-SLD-WGS84">30.312572 59.922103</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <LNode iedName="None" lnClass="PTOC" lnInst="1" desc="Feeder overcurrent"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K2_F2/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K2_F2" cNodeName="n_ct"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="TA" type="CTR" desc="Feeder CT outgoing_98a58938-64eb-498a-8d0c-11fa4e68a0b3">
+                    <Private type="IDU-SLD-WGS84">30.312572 59.922103</Private>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="A"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="B"/>
+                    <LNode iedName="None" lnClass="TCTR" lnInst="1" prefix="C"/>
+                    <Terminal connectivityNode="SS313/LV/K2_F2/n_ct" substationName="SS313" voltageLevelName="LV" bayName="K2_F2" cNodeName="n_ct"/>
+                    <Terminal connectivityNode="SS313/LV/K2_F2/n_out" substationName="SS313" voltageLevelName="LV" bayName="K2_F2" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConductingEquipment name="QL" type="IFL" desc="Outgoing line outgoing_98a58938-64eb-498a-8d0c-11fa4e68a0b3">
+                    <Private type="IDU-SLD-WGS84">30.312572 59.922103</Private>
+                    <Terminal connectivityNode="SS313/LV/K2_F2/n_out" substationName="SS313" voltageLevelName="LV" bayName="K2_F2" cNodeName="n_out"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_ct" pathName="SS313/LV/K2_F2/n_ct" desc="Between breaker and feeder CT"/>
+                <ConnectivityNode name="n_out" pathName="SS313/LV/K2_F2/n_out" desc="Feeder connection node"/>
+            </Bay>
+            <Bay name="K2_R1" desc="Spare bay spare_8ace048a-aec9-4bc6-b486-1f3e4421d289">
+                <ConductingEquipment name="QA" type="CBR" desc="Spare breaker spare_8ace048a-aec9-4bc6-b486-1f3e4421d289">
+                    <Private type="IDU-SLD-WGS84">30.312563 59.922109</Private>
+                    <LNode iedName="None" lnClass="XCBR" lnInst="1"/>
+                    <LNode iedName="None" lnClass="CSWI" lnInst="1"/>
+                    <Terminal connectivityNode="SS313/LV/W2/BB" substationName="SS313" voltageLevelName="LV" bayName="W2" cNodeName="BB"/>
+                    <Terminal connectivityNode="SS313/LV/K2_R1/n_res" substationName="SS313" voltageLevelName="LV" bayName="K2_R1" cNodeName="n_res"/>
+                </ConductingEquipment>
+                <ConnectivityNode name="n_res" pathName="SS313/LV/K2_R1/n_res" desc="Spare connection node"/>
+            </Bay>
+        </VoltageLevel>
+    </Substation>
+</SCL>

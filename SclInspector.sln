@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SclInspector", "SclInspector\SclInspector.csproj", "{09777783-DF78-45AD-A9DD-B727544CEA6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SclInspector.Tests", "SclInspector.Tests\SclInspector.Tests.csproj", "{9CEE389D-4837-4660-BB1D-C125E0E574AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09777783-DF78-45AD-A9DD-B727544CEA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09777783-DF78-45AD-A9DD-B727544CEA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09777783-DF78-45AD-A9DD-B727544CEA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09777783-DF78-45AD-A9DD-B727544CEA6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CEE389D-4837-4660-BB1D-C125E0E574AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CEE389D-4837-4660-BB1D-C125E0E574AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CEE389D-4837-4660-BB1D-C125E0E574AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CEE389D-4837-4660-BB1D-C125E0E574AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

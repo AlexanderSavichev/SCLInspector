@@ -1,0 +1,12 @@
+# Результаты сборки (как target/ в Maven или build/ в Gradle) — создаются заново при каждой сборке
+bin/
+obj/
+
+# Личные настройки IDE (Rider) — у каждого разработчика свои
+.idea/
+*.DotSettings.user
+*.user
+
+# Файлы, которые программа создаёт при запуске
+logical-nodes-report.txt
+TestResults/
