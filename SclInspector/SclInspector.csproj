@@ -1,34 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!-- Файл проекта C#. Аналог pom.xml (Maven) или build.gradle (Gradle). -->
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <!-- Exe = консольная программа с точкой входа (как jar с Main-Class) -->
         <OutputType>Exe</OutputType>
+        <!-- Версия платформы .NET, как версия JDK -->
         <TargetFramework>net10.0</TargetFramework>
+        <!-- Частые using подключаются автоматически (System, System.IO, System.Linq...) -->
         <ImplicitUsings>enable</ImplicitUsings>
+        <!-- Компилятор предупреждает о возможном null. В Java такой проверки нет -->
         <Nullable>enable</Nullable>
+        <!-- Только 64 бита: нативная библиотека iec61850.dll собрана под x64 -->
         <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
+
     <ItemGroup>
-        <None Update="Samples\**\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="iec61850.dll">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+        <!-- SCL-файлы из Samples копируются рядом с программой при сборке -->
+        <None Update="Samples\**\*" CopyToOutputDirectory="PreserveNewest" />
+        <!-- Нативная часть libIEC61850 (написана на C). Обёртка .NET вызывает её функции -->
+        <None Update="iec61850.dll" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="Samples\project_307.scd"
-              CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="C:\Users\Aleksandr\RiderProjects\libiec61850\dotnet\IEC61850forCSharp\IEC61850.NET.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Update="iec61850.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+        <!-- Обёртка libIEC61850 для .NET подключается из исходников, как модуль в Maven multi-module -->
+        <ProjectReference Include="..\..\libiec61850\dotnet\IEC61850forCSharp\IEC61850.NET.csproj" />
     </ItemGroup>
 
 </Project>
