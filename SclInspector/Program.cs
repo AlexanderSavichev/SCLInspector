@@ -66,10 +66,9 @@ try
     {
         var iedValue = settingComparison.IedValue?.ToString() ?? "-";
         var sclValue = settingComparison.SclValue?.ToString() ?? "-";
-        Console.WriteLine($"{$"{settingComparison.LogicalNodeReference}",-25}" +
-                          $" {$"{settingComparison.Parameter}", -15} " +
-                          $"{$"{sclValue}", 10} {$"{iedValue}", 10}" +
-                          $" {$"{settingComparison.Unit}", -30} {$"{settingComparison.Status}", -15}");
+        Console.WriteLine($"{settingComparison.LogicalNodeReference,-25} " +
+                          $"{settingComparison.Parameter, -15} {sclValue, 10} {iedValue, 10} " +
+                          $"{settingComparison.Unit, -30} {settingComparison.Status, -15}");
         
     }
 
