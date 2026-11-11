@@ -4,30 +4,40 @@ namespace SclInspector.Analysis;
 
 public class ProtectionSettingsAnalyzer
 {
-    public void PtocAnalyzer(List<ProtectionSettings> protectionSets1, List<ProtectionSettings> protectionSets2)
+    public List<SettingComparison> Compare(IReadOnlyList<ProtectionSettings> fromScl, IReadOnlyList<ProtectionSettings> fromIed, double tolerance)
     {
-        if (protectionSets1 == null || protectionSets2 == null)
+        var resultList = new List<SettingComparison>();
+
+        var sclByRef = fromScl.ToDictionary(setting => setting.LogicalNodeReference);
+        var iedByRef = fromIed.ToDictionary(setting => setting.LogicalNodeReference);
+
+        var allRefs = sclByRef.Keys.Union(iedByRef.Keys).Order();
+
+        foreach (var reference in allRefs)
         {
-            throw new InvalidDataException("protectionSets1 or protectionSets2 are null");
+            sclByRef.TryGetValue(reference, out var scl);
+            iedByRef.TryGetValue(reference, out var ied);
+            
+            resultList.Add(CompareOneParameter(reference, "StrVal", scl?.PickupSetting, ied?.PickupSetting, "No unit for this parameter", tolerance));
+            resultList.Add(CompareOneParameter(reference, "OpDlTmms", scl?.OperateDelayMs, ied?.OperateDelayMs, "ms", tolerance));
         }
 
-        foreach (var protectionSet1 in protectionSets1)
-        {
-            foreach (var protectionSet2 in protectionSets2)
-            {
-                if (protectionSet1.LogicalNodeReference.Equals(protectionSet2.LogicalNodeReference))
-                {
-                    if (!protectionSet1.PickupSetting.Equals(protectionSet2.PickupSetting))
-                    {
-                        throw new InvalidDataException($"{protectionSet1.LogicalNodeReference}  StrVal.setMag.f  SCL: {protectionSet1.PickupSetting} ms  IED: {protectionSet2.PickupSetting} ms  Mismatch");
-                    }
+        return resultList;
+    }
 
-                    if (!protectionSet1.OperateDelayMs.Equals(protectionSet2.OperateDelayMs))
-                    {
-                        throw new InvalidDataException($"{protectionSet1.LogicalNodeReference}  OpDlTmms.setVal  SCL: {protectionSet1.OperateDelayMs} ms  IED: {protectionSet2.OperateDelayMs} ms  Mismatch");
-                    }
-                }
-            }
-        }
+    private static SettingComparison CompareOneParameter(string logicalNodeReference, string parameter,
+        double? scl, double? ied, string unit,  double tolerance)
+    {
+        var status = (scl, ied) switch
+        {
+            (null, null) => throw new InvalidDataException(
+                $"{parameter} parameters in scl document and server in {logicalNodeReference} are null"),
+            (_, null) => SettingStatus.MissingInIed,
+            (null, _) => SettingStatus.MissingInScl,
+            var (sclValue, iedValue) when Math.Abs(sclValue.Value - iedValue.Value) <= tolerance =>
+                SettingStatus.Match,
+            _ => SettingStatus.Mismatch
+        };
+        return new SettingComparison(logicalNodeReference, parameter, scl, ied, unit, status);
     }
 }

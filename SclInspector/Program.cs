@@ -47,8 +47,8 @@ try
     Console.WriteLine("Connected to the test IED");
 
     var logicalNodes = modelBrowser.ReadAllDataObjects(connection);
-    var protectionSetsFromSCL = sclReader.ReadProtectionSettings(xml, iedName);
-    foreach (var settings in protectionSetsFromSCL)
+    var protectionSetsFromScl = sclReader.ReadProtectionSettings(xml, iedName);
+    foreach (var settings in protectionSetsFromScl)
     {
         Console.WriteLine($"SCL: {settings}");
     }
@@ -59,7 +59,19 @@ try
         Console.WriteLine($"IED: {settings}");
     }
 
-    settingsAnalyzer.PtocAnalyzer(protectionSetsFromSCL, protectionSetsFromServer);
+    var protectionComparassionList = settingsAnalyzer.Compare(protectionSetsFromScl, protectionSetsFromServer, 0.1);
+
+    Console.WriteLine($"{"LogicalNode Reference",-25} {"Parameter", -15} {"SclValue", 10} {"IedValue", 10} {"Unit", -30} {"Status", -15}");
+    foreach (var settingComparison in protectionComparassionList)
+    {
+        var iedValue = settingComparison.IedValue?.ToString() ?? "-";
+        var sclValue = settingComparison.SclValue?.ToString() ?? "-";
+        Console.WriteLine($"{$"{settingComparison.LogicalNodeReference}",-25}" +
+                          $" {$"{settingComparison.Parameter}", -15} " +
+                          $"{$"{sclValue}", 10} {$"{iedValue}", 10}" +
+                          $" {$"{settingComparison.Unit}", -30} {$"{settingComparison.Status}", -15}");
+        
+    }
 
     Console.WriteLine("Online logical objects:");
     foreach (var node in logicalNodes)
