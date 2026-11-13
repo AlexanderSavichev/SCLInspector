@@ -52,9 +52,39 @@ public class IedModelBrowser
 
     public ProtectionSettings ReadProtectionSettings(IedConnection connection, string logicalNodeReference)
     {
-        float strVal = connection.ReadFloatValue($"{logicalNodeReference}.StrVal.setMag.f", FunctionalConstraint.SP);
+        var reference = $"{logicalNodeReference}.StrVal";
+        var strValAttributes = connection.GetDataDirectory(reference);
+        float strVal = connection.ReadFloatValue($"{reference}.setMag.f", FunctionalConstraint.SP);
+        string? unitText = null;
+        var unitsCodes = new Dictionary<long, string>
+        {
+            [1] = "No unit", [4] = "s", [5] = "A", [29] = "V", [33] = "Hz"
+        };
+        if (strValAttributes.Contains("units"))
+        {
+            long units = connection.ReadIntegerValue($"{reference}.units.SIUnit", FunctionalConstraint.CF);
+            unitText = unitsCodes.GetValueOrDefault(units) ?? $"Unknown code {units}";
+        }
+        
+        float? minVal = null;
+        if (strValAttributes.Contains("minVal"))
+        {
+            minVal = connection.ReadFloatValue($"{reference}.minVal.f", FunctionalConstraint.CF);
+        }
+        float? maxVal = null;
+        if (strValAttributes.Contains("maxVal"))
+        {
+            maxVal = connection.ReadFloatValue($"{reference}.maxVal.f", FunctionalConstraint.CF);
+        }
+        float? stepSize = null;
+        if (strValAttributes.Contains("stepSize"))
+        {
+            stepSize = connection.ReadFloatValue($"{reference}.stepSize.f", FunctionalConstraint.CF);
+        }
+        
         long tripVal = connection.ReadIntegerValue($"{logicalNodeReference}.OpDlTmms.setVal", FunctionalConstraint.SP);
-        return new ProtectionSettings(logicalNodeReference, strVal, tripVal);
+        
+        return new ProtectionSettings(logicalNodeReference, strVal, tripVal, unitText, minVal, maxVal, stepSize);
     }
 
     public List<ProtectionSettings> ReadProtectionSettingsFromIed(IedConnection connection, string iedName)

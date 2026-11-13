@@ -3670,6 +3670,18 @@
                                     <Val>955</Val>
                                 </DAI>
                             </SDI>
+                            <SDI name="units">
+                                <DAI name="SIUnit"><Val>A</Val></DAI>
+                            </SDI>
+                            <SDI name="minVal">
+                                <DAI name="f"><Val>50</Val></DAI>
+                            </SDI>
+                            <SDI name="maxVal">
+                                <DAI name="f"><Val>5000</Val></DAI>
+                            </SDI>
+                            <SDI name="stepSize">
+                                <DAI name="f"><Val>1</Val></DAI>
+                            </SDI>
                         </DOI>
                         <DOI name="OpDlTmms">
                             <DAI name="setVal">
@@ -3720,6 +3732,18 @@
                                 <DAI name="f">
                                     <Val>1671</Val>
                                 </DAI>
+                            </SDI>
+                            <SDI name="units">
+                                <DAI name="SIUnit"><Val>A</Val></DAI>
+                            </SDI>
+                            <SDI name="minVal">
+                                <DAI name="f"><Val>50</Val></DAI>
+                            </SDI>
+                            <SDI name="maxVal">
+                                <DAI name="f"><Val>5000</Val></DAI>
+                            </SDI>
+                            <SDI name="stepSize">
+                                <DAI name="f"><Val>1</Val></DAI>
                             </SDI>
                         </DOI>
                         <DOI name="OpDlTmms">
@@ -4005,6 +4029,10 @@
         </DOType>
         <DOType id="ASG" cdc="ASG">
             <DA name="setMag" bType="Struct" type="AnalogueValue" fc="SP"/>
+             <DA name="units" bType="Struct" type="Unit" fc="CF"/>
+             <DA name="minVal" bType="Struct" type="AnalogueValue" fc="CF"/>
+             <DA name="maxVal" bType="Struct" type="AnalogueValue" fc="CF"/>
+             <DA name="stepSize" bType="Struct" type="AnalogueValue" fc="CF"/>
         </DOType>
         <DOType id="ING" cdc="ING">
             <DA name="setVal" bType="INT32" fc="SP"/>
@@ -4026,6 +4054,22 @@
         <DAType id="AnalogueValue">
             <BDA name="f" bType="FLOAT32"/>
         </DAType>
+        <DAType id="Unit">
+            <BDA name="SIUnit" bType="Enum" type="SIUnit"/>
+            <BDA name="multiplier" bType="Enum" type="multiplier"/>
+        </DAType>
+        <EnumType id="SIUnit">
+            <EnumVal ord="1">none</EnumVal>
+            <EnumVal ord="4">s</EnumVal>
+            <EnumVal ord="5">A</EnumVal>
+            <EnumVal ord="29">V</EnumVal>
+            <EnumVal ord="33">Hz</EnumVal>
+        </EnumType>
+        <EnumType id="multiplier">
+            <EnumVal ord="-3">m</EnumVal>
+            <EnumVal ord="0"></EnumVal>
+            <EnumVal ord="3">k</EnumVal>
+        </EnumType>
         <EnumType id="Beh">
             <EnumVal ord="1">on</EnumVal>
             <EnumVal ord="2">blocked</EnumVal>

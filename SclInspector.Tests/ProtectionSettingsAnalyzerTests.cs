@@ -70,4 +70,28 @@ public class ProtectionSettingsAnalyzerTests
         Assert.Equal(2, result.Count);
         Assert.All(result, row => Assert.Equal(SettingStatus.Match, row.Status));
     }
+
+    [Fact]
+    public void TestStepSizeBeatsTolerance()
+    {
+        var scl = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955.4f, 1500, null, null, null, 1) };
+        var ied = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955f, 1500, null, null, null, 1) };
+        
+        var result = new ProtectionSettingsAnalyzer().Compare(scl, ied, tolerance: 0.01);
+        
+        Assert.Equal(2, result.Count);
+        Assert.True(result.Find(setting => setting.Parameter == "StrVal")?.Status == SettingStatus.Match);
+    }
+    
+    [Fact]
+    public void TestStepSizeDividedByTwo()
+    {
+        var scl = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955.6f, 1500, null, null, null, 1) };
+        var ied = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955f, 1500, null, null, null, 1) };
+        
+        var result = new ProtectionSettingsAnalyzer().Compare(scl, ied, tolerance: 0.01);
+        
+        Assert.Equal(2, result.Count);
+        Assert.True(result.Find(setting => setting.Parameter == "StrVal")?.Status == SettingStatus.Mismatch);
+    }
 }

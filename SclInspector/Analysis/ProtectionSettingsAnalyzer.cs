@@ -18,7 +18,10 @@ public class ProtectionSettingsAnalyzer
             sclByRef.TryGetValue(reference, out var scl);
             iedByRef.TryGetValue(reference, out var ied);
             
-            resultList.Add(CompareOneParameter(reference, "StrVal", scl?.PickupSetting, ied?.PickupSetting, "No unit for this parameter", tolerance));
+            var strValUnit = ied?.Units ?? scl?.Units ?? "Unknown";
+            var stepSize = ied?.StepSize/2 ?? scl?.StepSize/2 ?? tolerance;
+            
+            resultList.Add(CompareOneParameter(reference, "StrVal", scl?.PickupSetting, ied?.PickupSetting, strValUnit, stepSize));
             resultList.Add(CompareOneParameter(reference, "OpDlTmms", scl?.OperateDelayMs, ied?.OperateDelayMs, "ms", tolerance));
         }
 
