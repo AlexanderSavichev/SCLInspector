@@ -125,6 +125,46 @@ public class SclReaderTests
         Assert.Throws<InvalidDataException>(() =>
             reader.ReadProtectionSettings(xml, "IED1"));
     }
+    
+    [Fact]
+    public void TestStrValNullParamsInsteadOfEmpty()
+    {
+        var xml = $$"""
+                    <SCL xmlns="http://www.iec.ch/61850/2003/SCL">
+                        <IED name="IED1">
+                            <AccessPoint name="AP1">
+                                <Server>
+                                    <LDevice inst="PROT">
+                                        <LN lnClass="PTOC" inst="1">
+                                            <DOI name="StrVal">
+                                                <SDI name="setMag">
+                                                    <DAI name="f">
+                                                       <Val>900</Val>
+                                                    </DAI>
+                                                </SDI>
+                                            </DOI>
+                                            <DOI name="OpDlTmms">
+                                                <DAI name="setVal">
+                                                    <Val>1500</Val>
+                                                </DAI>
+                                            </DOI>
+                                        </LN>
+                                    </LDevice>
+                                </Server>
+                            </AccessPoint>
+                        </IED>
+                    </SCL>
+                    """;
+
+        var reader = new SclReader();
+        var result = reader.ReadProtectionSettings(xml, "IED1");
+        
+        Assert.Null(result[0].Units);
+        Assert.Null(result[0].MinVal);
+        Assert.Null(result[0].MaxVal);
+        Assert.Null(result[0].StepSize);
+        
+    }
 
     [Fact]
     public void TestIgnoreHeader()

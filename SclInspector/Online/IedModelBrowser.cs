@@ -55,16 +55,24 @@ public class IedModelBrowser
         var reference = $"{logicalNodeReference}.StrVal";
         var strValAttributes = connection.GetDataDirectory(reference);
         float strVal = connection.ReadFloatValue($"{reference}.setMag.f", FunctionalConstraint.SP);
-        string? unitText = null;
+        string? resultUnitText = null;
         var unitsCodes = new Dictionary<long, string>
         {
             [1] = "No unit", [4] = "s", [5] = "A", [29] = "V", [33] = "Hz"
         };
+        var multiplierCodes = new Dictionary<long, string>
+        {
+            [-3] = "m", [0] = "", [3] = "k", [6] = "M"
+        };
         if (strValAttributes.Contains("units"))
         {
             long units = connection.ReadIntegerValue($"{reference}.units.SIUnit", FunctionalConstraint.CF);
-            unitText = unitsCodes.GetValueOrDefault(units) ?? $"Unknown code {units}";
+            long multiplier = connection.ReadIntegerValue($"{reference}.units.multiplier", FunctionalConstraint.CF);
+            string? multiplierText = multiplierCodes.GetValueOrDefault(multiplier) ?? "";
+            string? unitText = unitsCodes.GetValueOrDefault(units) ?? $"Unknown code {units}";
+            resultUnitText = multiplierText + unitText;
         }
+        
         
         float? minVal = null;
         if (strValAttributes.Contains("minVal"))
@@ -84,7 +92,7 @@ public class IedModelBrowser
         
         long tripVal = connection.ReadIntegerValue($"{logicalNodeReference}.OpDlTmms.setVal", FunctionalConstraint.SP);
         
-        return new ProtectionSettings(logicalNodeReference, strVal, tripVal, unitText, minVal, maxVal, stepSize);
+        return new ProtectionSettings(logicalNodeReference, strVal, tripVal, resultUnitText, minVal, maxVal, stepSize);
     }
 
     public List<ProtectionSettings> ReadProtectionSettingsFromIed(IedConnection connection, string iedName)

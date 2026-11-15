@@ -7,6 +7,7 @@ namespace SclInspector.Parsing;
 public class SclReader
 {
     private const string NameSpace = "http://www.iec.ch/61850/2003/SCL";
+
     public List<Ied> ReadIeds(string xml)
     {
         XNamespace ns = NameSpace;
@@ -14,7 +15,7 @@ public class SclReader
         var document = XDocument.Parse(xml);
         ValidateXml(xml);
         var root = document.Root ?? throw new InvalidDataException("Root is missing");
-       
+
         foreach (var element in root.Elements(ns + "IED"))
         {
             var name = ReadRequiredAttribute(element, "name");
@@ -57,20 +58,23 @@ public class SclReader
                         {
                             nodePrefix = "";
                         }
+
                         resultList.Add(new LogicalNodeInfo(
                             ReadRequiredAttribute(ied, "name"),
                             ReadRequiredAttribute(accessPoint, "name"),
                             ReadRequiredAttribute(logicalDevice, "inst"),
                             nodePrefix,
                             ReadRequiredAttribute(node, "lnClass"),
-                            (string?)node.Attribute("inst")?? throw new InvalidDataException("Logical node instance is missing")));
+                            (string?)node.Attribute("inst") ??
+                            throw new InvalidDataException("Logical node instance is missing")));
                     }
                 }
             }
         }
+
         return resultList;
     }
-    
+
     public List<ProtectionSettings> ReadProtectionSettings(string xml, string iedName)
     {
         XNamespace ns = NameSpace;
@@ -79,11 +83,11 @@ public class SclReader
         ValidateXml(xml);
         var root = document.Root ?? throw new InvalidDataException("Root is missing");
         var ieds = root.Elements(ns + "IED").ToList();
-        
+
         var iedNameFromList = ieds
-            .FirstOrDefault(element => ReadRequiredAttribute(element, "name") == iedName)
-            ?? throw new InvalidDataException("IED name is missing");
-     
+                                  .FirstOrDefault(element => ReadRequiredAttribute(element, "name") == iedName)
+                              ?? throw new InvalidDataException("IED name is missing");
+
         foreach (var accessPoint in iedNameFromList.Elements(ns + "AccessPoint"))
         {
             var logicalDevices = accessPoint
@@ -94,11 +98,13 @@ public class SclReader
             {
                 var nodes = logicalDevice.Elements()
                     .Where(element => element.Name == ns + "LN" && ReadRequiredAttribute(element, "lnClass") == "PTOC");
-                
+
                 foreach (var node in nodes)
                 {
-                    var strValText = node.Elements(ns + "DOI")
-                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "StrVal")
+                    var strValXElement = node.Elements(ns + "DOI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "StrVal");
+
+                    var strValText = strValXElement
                         ?.Elements(ns + "SDI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "setMag")
                         ?.Elements(ns + "DAI")
@@ -107,20 +113,61 @@ public class SclReader
                         ?.Value;
                     if (!float.TryParse(strValText, NumberStyles.Float, CultureInfo.InvariantCulture, out var strVal))
                     {
-                        throw new  InvalidDataException("StrVal is invalid");
+                        throw new InvalidDataException("StrVal is invalid");
                     }
+
+                    var strValUnit = strValXElement
+                        ?.Elements(ns + "SDI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "units")
+                        ?.Elements(ns + "DAI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "SIUnit")
+                        ?.Element(ns + "Val")
+                        ?.Value;
+
+                    var strValMultiplier = strValXElement
+                        ?.Elements(ns + "SDI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "units")
+                        ?.Elements(ns + "DAI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "multiplier")
+                        ?.Element(ns + "Val")
+                        ?.Value;
                     
+                    var resultUnit = strValUnit is null ? null : strValMultiplier + strValUnit;
+
+                    var stepSize = (float?)strValXElement
+                        ?.Elements(ns + "SDI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "stepSize")
+                        ?.Elements(ns + "DAI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "f")
+                        ?.Element(ns + "Val");
+
+                    var strValMin = (float?)strValXElement
+                        ?.Elements(ns + "SDI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "minVal")
+                        ?.Elements(ns + "DAI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "f")
+                        ?.Element(ns + "Val");
+
+                    var strValMax = (float?)strValXElement
+                        ?.Elements(ns + "SDI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "maxVal")
+                        ?.Elements(ns + "DAI")
+                        .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "f")
+                        ?.Element(ns + "Val");
+                  
+
                     var delayValText = node.Elements(ns + "DOI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "OpDlTmms")
                         ?.Elements(ns + "DAI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "setVal")
                         ?.Element(ns + "Val")
                         ?.Value;
-                    if (!int.TryParse(delayValText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var delayVal))
+                    if (!int.TryParse(delayValText, NumberStyles.Integer, CultureInfo.InvariantCulture,
+                            out var delayVal))
                     {
-                        throw new   InvalidDataException("DelayVal is invalid");
+                        throw new InvalidDataException("DelayVal is invalid");
                     }
-                    
+
                     var nodePrefix = (string?)node.Attribute("prefix");
                     if (String.IsNullOrWhiteSpace(nodePrefix))
                     {
@@ -133,17 +180,18 @@ public class SclReader
                                    ReadRequiredAttribute(node, "inst");
                     if (!float.IsFinite(strVal) || strVal < 0 || delayVal < 0)
                     {
-                        throw new   InvalidDataException($"StrVal or delayval of {nodeName} is lower than zero");
+                        throw new InvalidDataException($"StrVal or delayval of {nodeName} is lower than zero");
                     }
-                    
-                    resultList.Add(new ProtectionSettings(nodeName, strVal, delayVal));
+
+                    resultList.Add(new ProtectionSettings(nodeName, strVal, delayVal, resultUnit,
+                        strValMin, strValMax, stepSize));
                 }
             }
         }
-       
-        return  resultList;
+
+        return resultList;
     }
-    
+
     private static void ValidateXml(string xml)
     {
         XNamespace ns = NameSpace;
@@ -153,17 +201,17 @@ public class SclReader
         {
             throw new InvalidDataException("Expected SCL root element in the IEC 61850 namespace");
         }
-        
+
         var ieds = root.Elements(ns + "IED").ToList();
 
         foreach (var ied in ieds)
         {
             ReadRequiredAttribute(ied, "name");
-            
+
             foreach (var accessPoint in ied.Elements(ns + "AccessPoint"))
             {
                 ReadRequiredAttribute(accessPoint, "name");
-                
+
                 var logicalDevices = accessPoint
                     .Elements(ns + "Server")
                     .SelectMany(server => server.Elements(ns + "LDevice"));
@@ -171,12 +219,12 @@ public class SclReader
                 foreach (var logicalDevice in logicalDevices)
                 {
                     ReadRequiredAttribute(logicalDevice, "inst");
-                    
+
                     var nodes = logicalDevice.Elements()
                         .Where(element =>
                             element.Name == ns + "LN" ||
                             element.Name == ns + "LN0");
-                    
+
                     var lnNodes = logicalDevice.Elements(ns + "LN").ToList();
 
                     foreach (var lnNode in lnNodes)
@@ -191,13 +239,14 @@ public class SclReader
                         {
                             throw new InvalidDataException("Logical node instance is null");
                         }
+
                         ReadRequiredAttribute(node, "lnClass");
                     }
                 }
             }
         }
     }
-    
+
     private static string ReadRequiredAttribute(XElement element, string attributeName)
     {
         var value = (string?)element.Attribute(attributeName);

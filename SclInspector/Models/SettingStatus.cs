@@ -5,5 +5,6 @@ public enum SettingStatus
     Match,          
     Mismatch,       
     MissingInIed,  
-    MissingInScl  
+    MissingInScl,
+    UnitMismatch
 }

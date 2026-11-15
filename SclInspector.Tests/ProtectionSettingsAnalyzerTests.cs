@@ -94,4 +94,28 @@ public class ProtectionSettingsAnalyzerTests
         Assert.Equal(2, result.Count);
         Assert.True(result.Find(setting => setting.Parameter == "StrVal")?.Status == SettingStatus.Mismatch);
     }
+    
+    [Fact]
+    public void TestStepSizeIsZero()
+    {
+        var scl = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955.4f, 1500, null, null, null, 1) };
+        var ied = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955f, 1500, null, null, null, 0) };
+        
+        var result = new ProtectionSettingsAnalyzer().Compare(scl, ied, tolerance: 0.01);
+        
+        Assert.Equal(2, result.Count);
+        Assert.True(result.Find(setting => setting.Parameter == "StrVal")?.Status == SettingStatus.Match);
+    }
+    
+    [Fact]
+    public void TestUnitsMismatch()
+    {
+        var scl = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955f, 1500, "k", null, null, 1) };
+        var ied = new List<ProtectionSettings> { new("IED_T1PROT/PTOC1", 955f, 1500, "V", null, null, 1) };
+        
+        var result = new ProtectionSettingsAnalyzer().Compare(scl, ied, tolerance: 0.01);
+        
+        Assert.Equal(2, result.Count);
+        Assert.True(result.Find(setting => setting.Parameter == "StrVal")?.Status == SettingStatus.UnitMismatch);
+    }
 }
