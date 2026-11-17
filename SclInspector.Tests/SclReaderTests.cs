@@ -73,7 +73,7 @@ public class SclReaderTests
         var sclReader = new SclReader();
         var path = Path.Combine(AppContext.BaseDirectory, "Samples", "project_307.scd");
         var xml = File.ReadAllText(path);
-        var resultList = sclReader.ReadProtectionSettings(xml, "IED_T1");
+        var resultList = sclReader.ReadProtectionSettings(xml, "IED_T1", null);
         Assert.Equal(2, resultList.Count);
         Assert.Equal("IED_T1PROT/PTOC1", resultList[0].LogicalNodeReference);
         Assert.Equal(955, resultList[0].PickupSetting);
@@ -123,7 +123,7 @@ public class SclReaderTests
         var reader = new SclReader();
 
         Assert.Throws<InvalidDataException>(() =>
-            reader.ReadProtectionSettings(xml, "IED1"));
+            reader.ReadProtectionSettings(xml, "IED1", null));
     }
     
     [Fact]
@@ -157,7 +157,7 @@ public class SclReaderTests
                     """;
 
         var reader = new SclReader();
-        var result = reader.ReadProtectionSettings(xml, "IED1");
+        var result = reader.ReadProtectionSettings(xml, "IED1", null);
         
         Assert.Null(result[0].Units);
         Assert.Null(result[0].MinVal);
@@ -265,5 +265,48 @@ public class SclReaderTests
         var result = PortParser.TryReadPort(portName, out var port);
         Assert.False(result);
         Assert.Equal(0, port);
+    }
+
+    [Fact]
+    public void TestSettingsGroupTakesCorrectParameter()
+    {
+        var xml = """
+                    <SCL xmlns="http://www.iec.ch/61850/2003/SCL">
+                        <IED name="IED1">
+                            <AccessPoint name="AP1">
+                                <Server>
+                                    <LDevice inst="PROT">
+                                        <LN lnClass="PTOC" inst="1">
+                                            <DOI name="StrVal">
+                                                <SDI name="setMag">
+                                                    <DAI name="f">
+                                                      <Val sGroup="1">955</Val>
+                                                      <Val sGroup="2">1200</Val>
+                                                    </DAI>
+                                                </SDI>
+                                            </DOI>
+                                            <DOI name="OpDlTmms">
+                                                <DAI name="setVal">
+                                                    <Val sGroup="1">1500</Val>
+                                                    <Val sGroup="2">2000</Val>
+                                                </DAI>
+                                            </DOI>
+                                        </LN>
+                                    </LDevice>
+                                </Server>
+                            </AccessPoint>
+                        </IED>
+                    </SCL>
+                    """;
+        var reader = new SclReader();
+        var result = reader.ReadProtectionSettings(xml, "IED1", 2);
+        
+        Assert.Equal(1200, result[0].PickupSetting);
+        Assert.Equal(2000, result[0].OperateDelayMs);
+        
+        result = reader.ReadProtectionSettings(xml, "IED1", 1);
+        
+        Assert.Equal(955, result[0].PickupSetting);
+        Assert.Equal(1500, result[0].OperateDelayMs);
     }
 }

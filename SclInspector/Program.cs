@@ -45,33 +45,41 @@ try
 
     connection.Connect(host, port);
     Console.WriteLine("Connected to the test IED");
-
+    
+    var groups = modelBrowser.CheckProtectionGroups(connection, logicalDeviceName);
+    Console.WriteLine(groups);
+    
     var logicalNodes = modelBrowser.ReadAllDataObjects(connection);
-    var protectionSetsFromScl = sclReader.ReadProtectionSettings(xml, iedName);
-    foreach (var settings in protectionSetsFromScl)
-    {
-        Console.WriteLine($"SCL: {settings}");
-    }
 
-    var protectionSetsFromServer = modelBrowser.ReadProtectionSettingsFromIed(connection, logicalDeviceName);
-    foreach (var settings in protectionSetsFromServer)
+    for (int group = 1; group <= Math.Max(1, groups.NumberOfGroups); group++)
     {
-        Console.WriteLine($"IED: {settings}");
-    }
+        var protectionSetsFromScl = sclReader.ReadProtectionSettings(xml, iedName, group);
+        foreach (var settings in protectionSetsFromScl)
+        {
+            Console.WriteLine($"SCL: {settings}");
+        }
+    
+        var protectionSetsFromServer = modelBrowser.ReadProtectionSettingsFromIed(connection, logicalDeviceName, group);
+        foreach (var settings in protectionSetsFromServer)
+        {
+            Console.WriteLine($"IED: {settings}");
+        }
 
-    var protectionComparassionList = settingsAnalyzer.Compare(protectionSetsFromScl, protectionSetsFromServer, 0.1);
+        var protectionComparassionList = settingsAnalyzer.Compare(protectionSetsFromScl, protectionSetsFromServer, 0.1);
 
-    Console.WriteLine($"{"LogicalNode Reference",-25} {"Parameter", -15} {"SclValue", 10} {"IedValue", 10} {"Unit", -30} {"Status", -15}");
-    foreach (var settingComparison in protectionComparassionList)
-    {
-        var iedValue = settingComparison.IedValue?.ToString() ?? "-";
-        var sclValue = settingComparison.SclValue?.ToString() ?? "-";
-        Console.WriteLine($"{settingComparison.LogicalNodeReference,-25} " +
-                          $"{settingComparison.Parameter, -15} {sclValue, 10} {iedValue, 10} " +
-                          $"{settingComparison.Unit, -30} {settingComparison.Status, -15}");
+        Console.WriteLine($"Group #{group}");
+        Console.WriteLine($"{"LogicalNode Reference",-25} {"Parameter", -15} {"SclValue", 10} {"IedValue", 10} {"Unit", -30} {"Status", -15}");
+        foreach (var settingComparison in protectionComparassionList)
+        {
+            var iedValue = settingComparison.IedValue?.ToString() ?? "-";
+            var sclValue = settingComparison.SclValue?.ToString() ?? "-";
+            Console.WriteLine($"{settingComparison.LogicalNodeReference,-25} " +
+                              $"{settingComparison.Parameter, -15} {sclValue, 10} {iedValue, 10} " +
+                              $"{settingComparison.Unit, -30} {settingComparison.Status, -15}");
         
+        }
     }
-
+    
     Console.WriteLine("Online logical objects:");
     foreach (var node in logicalNodes)
     {

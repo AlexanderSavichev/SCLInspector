@@ -75,9 +75,13 @@ public class SclReader
         return resultList;
     }
 
-    public List<ProtectionSettings> ReadProtectionSettings(string xml, string iedName)
+    public List<ProtectionSettings> ReadProtectionSettings(string xml, string iedName, int? settingsGroup)
     {
         XNamespace ns = NameSpace;
+        if (settingsGroup == null)
+        {
+            settingsGroup = 1;
+        }
         var resultList = new List<ProtectionSettings>();
         var document = XDocument.Parse(xml);
         ValidateXml(xml);
@@ -109,7 +113,8 @@ public class SclReader
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "setMag")
                         ?.Elements(ns + "DAI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "f")
-                        ?.Element(ns + "Val")
+                        ?.Elements(ns + "Val")
+                        .FirstOrDefault(element => ((int?)element.Attribute("sGroup") ?? settingsGroup) == settingsGroup)
                         ?.Value;
                     if (!float.TryParse(strValText, NumberStyles.Float, CultureInfo.InvariantCulture, out var strVal))
                     {
@@ -160,7 +165,8 @@ public class SclReader
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "OpDlTmms")
                         ?.Elements(ns + "DAI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "setVal")
-                        ?.Element(ns + "Val")
+                        ?.Elements(ns + "Val")
+                        .FirstOrDefault(element => ((int?)element.Attribute("sGroup") ?? settingsGroup) == settingsGroup)
                         ?.Value;
                     if (!int.TryParse(delayValText, NumberStyles.Integer, CultureInfo.InvariantCulture,
                             out var delayVal))

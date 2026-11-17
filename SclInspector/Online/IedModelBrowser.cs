@@ -50,11 +50,25 @@ public class IedModelBrowser
             time.ClockFailure);
     }
 
-    public ProtectionSettings ReadProtectionSettings(IedConnection connection, string logicalNodeReference)
+    private ProtectionSettings ReadProtectionSettings(IedConnection connection, string logicalNodeReference, string iedName, int settingsGroup)
     {
+        var groups = CheckProtectionGroups(connection, iedName);
+
+        var functionalConstraint = FunctionalConstraint.SP;
+
+        if (groups.NumberOfGroups > 0 && groups.ActiveGroup == settingsGroup)
+        {
+            functionalConstraint = FunctionalConstraint.SG;
+        }
+        else if (groups.NumberOfGroups > 0 && groups.ActiveGroup != settingsGroup)
+        {
+            functionalConstraint = FunctionalConstraint.SE;
+            connection.WriteValue($"{iedName}/LLN0.SGCB.EditSG", FunctionalConstraint.SP, new MmsValue((uint)settingsGroup)); 
+        }
+        
         var reference = $"{logicalNodeReference}.StrVal";
         var strValAttributes = connection.GetDataDirectory(reference);
-        float strVal = connection.ReadFloatValue($"{reference}.setMag.f", FunctionalConstraint.SP);
+        var strVal = connection.ReadFloatValue($"{reference}.setMag.f", functionalConstraint);
         string? resultUnitText = null;
         var unitsCodes = new Dictionary<long, string>
         {
@@ -66,10 +80,10 @@ public class IedModelBrowser
         };
         if (strValAttributes.Contains("units"))
         {
-            long units = connection.ReadIntegerValue($"{reference}.units.SIUnit", FunctionalConstraint.CF);
-            long multiplier = connection.ReadIntegerValue($"{reference}.units.multiplier", FunctionalConstraint.CF);
-            string? multiplierText = multiplierCodes.GetValueOrDefault(multiplier) ?? "";
-            string? unitText = unitsCodes.GetValueOrDefault(units) ?? $"Unknown code {units}";
+            var units = connection.ReadIntegerValue($"{reference}.units.SIUnit", FunctionalConstraint.CF);
+            var multiplier = connection.ReadIntegerValue($"{reference}.units.multiplier", FunctionalConstraint.CF);
+            string multiplierText = multiplierCodes.GetValueOrDefault(multiplier) ?? "";
+            string unitText = unitsCodes.GetValueOrDefault(units) ?? $"Unknown code {units}";
             resultUnitText = multiplierText + unitText;
         }
         
@@ -90,12 +104,17 @@ public class IedModelBrowser
             stepSize = connection.ReadFloatValue($"{reference}.stepSize.f", FunctionalConstraint.CF);
         }
         
-        long tripVal = connection.ReadIntegerValue($"{logicalNodeReference}.OpDlTmms.setVal", FunctionalConstraint.SP);
+        long tripVal = connection.ReadIntegerValue($"{logicalNodeReference}.OpDlTmms.setVal", functionalConstraint);
+
+        if (groups.NumberOfGroups > 0 && groups.ActiveGroup != settingsGroup)
+        {
+            connection.WriteValue($"{iedName}/LLN0.SGCB.EditSG", FunctionalConstraint.SP, new MmsValue((uint)0)); 
+        }
         
         return new ProtectionSettings(logicalNodeReference, strVal, tripVal, resultUnitText, minVal, maxVal, stepSize);
     }
 
-    public List<ProtectionSettings> ReadProtectionSettingsFromIed(IedConnection connection, string iedName)
+    public List<ProtectionSettings> ReadProtectionSettingsFromIed(IedConnection connection, string iedName, int? settingsGroup)
     {
         var resultList = new List<ProtectionSettings>();
         var logicalDevices = connection.GetServerDirectory();
@@ -109,11 +128,26 @@ public class IedModelBrowser
                 {
                     if (node.LogicalNodeName == "PTOC1" || node.LogicalNodeName == "PTOC2")
                     {
-                        resultList.Add(ReadProtectionSettings(connection, node.Reference));
+                        resultList.Add(ReadProtectionSettings(connection, node.Reference, iedName, settingsGroup?? 1));
                     }
                 }
             }
         }
         return resultList;
+    }
+
+    public ProtectionGroups CheckProtectionGroups(IedConnection connection, string reference)
+    {
+        var controlBlocks = connection.GetLogicalNodeDirectory($"{reference}/LLN0", ACSIClass.ACSI_CLASS_SGCB);
+
+        if (controlBlocks.Count == 0)
+        {
+            return new ProtectionGroups(0, 0);
+        }
+
+        uint numberOfGroups = connection.ReadValue($"{reference}/LLN0.SGCB.NumOfSG", FunctionalConstraint.SP).ToUint32();
+        uint activeGroup = connection.ReadValue($"{reference}/LLN0.SGCB.ActSG", FunctionalConstraint.SP).ToUint32();
+
+        return new ProtectionGroups((int)numberOfGroups, activeGroup);
     }
 }
