@@ -63,10 +63,11 @@ public class SclReader
                             ReadRequiredAttribute(ied, "name"),
                             ReadRequiredAttribute(accessPoint, "name"),
                             ReadRequiredAttribute(logicalDevice, "inst"),
-                            nodePrefix,
-                            ReadRequiredAttribute(node, "lnClass"),
-                            (string?)node.Attribute("inst") ??
-                            throw new InvalidDataException("Logical node instance is missing")));
+                            new LogicalNodeName(
+                                nodePrefix,
+                                ReadRequiredAttribute(node, "lnClass"),
+                                (string?)node.Attribute("inst") ??
+                                throw new InvalidDataException("Logical node instance is missing"))));
                     }
                 }
             }
@@ -82,6 +83,7 @@ public class SclReader
         {
             settingsGroup = 1;
         }
+
         var resultList = new List<ProtectionSettings>();
         var document = XDocument.Parse(xml);
         ValidateXml(xml);
@@ -114,7 +116,8 @@ public class SclReader
                         ?.Elements(ns + "DAI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "f")
                         ?.Elements(ns + "Val")
-                        .FirstOrDefault(element => ((int?)element.Attribute("sGroup") ?? settingsGroup) == settingsGroup)
+                        .FirstOrDefault(element =>
+                            ((int?)element.Attribute("sGroup") ?? settingsGroup) == settingsGroup)
                         ?.Value;
                     if (!float.TryParse(strValText, NumberStyles.Float, CultureInfo.InvariantCulture, out var strVal))
                     {
@@ -136,7 +139,7 @@ public class SclReader
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "multiplier")
                         ?.Element(ns + "Val")
                         ?.Value;
-                    
+
                     var resultUnit = strValUnit is null ? null : strValMultiplier + strValUnit;
 
                     var stepSize = (float?)strValXElement
@@ -159,14 +162,15 @@ public class SclReader
                         ?.Elements(ns + "DAI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "f")
                         ?.Element(ns + "Val");
-                  
+
 
                     var delayValText = node.Elements(ns + "DOI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "OpDlTmms")
                         ?.Elements(ns + "DAI")
                         .SingleOrDefault(element => ReadRequiredAttribute(element, "name") == "setVal")
                         ?.Elements(ns + "Val")
-                        .FirstOrDefault(element => ((int?)element.Attribute("sGroup") ?? settingsGroup) == settingsGroup)
+                        .FirstOrDefault(element =>
+                            ((int?)element.Attribute("sGroup") ?? settingsGroup) == settingsGroup)
                         ?.Value;
                     if (!int.TryParse(delayValText, NumberStyles.Integer, CultureInfo.InvariantCulture,
                             out var delayVal))

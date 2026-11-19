@@ -247,10 +247,10 @@ public class SclReaderTests
         Assert.DoesNotContain(nodes, node => node.AccessPointName != "AP1");
         Assert.Contains(nodes, node => node.LDeviceInst == "PROT");
         Assert.Contains(nodes, node => node.LDeviceInst == "CTRL");
-        Assert.Contains(nodes, node => node.Name == "LLN0");
-        Assert.Contains(nodes, node => node.Name == "PTOC1");
-        Assert.Contains(nodes, node => node.Name == "PhPTOC2");
-        Assert.Contains(nodes, node => node.Name == "XCBR1");
+        Assert.Contains(nodes, node => node.LogicalNode.Name == "LLN0");
+        Assert.Contains(nodes, node => node.LogicalNode.Name == "PTOC1");
+        Assert.Contains(nodes, node => node.LogicalNode.Name == "PhPTOC2");
+        Assert.Contains(nodes, node => node.LogicalNode.Name == "XCBR1");
     }
 
     [Theory]

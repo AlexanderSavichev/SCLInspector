@@ -22,6 +22,18 @@ public class IedModelBrowser
         return resultList;
     }
 
+    public List<OnlineLogicalNode> ReadAllLogicalNodes(IedConnection connection)
+    {
+        var resultList = new List<OnlineLogicalNode>();
+        var logicalDevices = connection.GetServerDirectory();
+        foreach (var logicalDevice in logicalDevices)
+        {
+            resultList.AddRange(connection.GetLogicalDeviceDirectory(logicalDevice)
+                .Select(node => new OnlineLogicalNode(logicalDevice, node)));
+        }
+        return resultList;
+    }
+
     private List<OnlineDataObject> ReadDataObjects(IedConnection connection, OnlineLogicalNode node)
     {
         var resultList = new List<OnlineDataObject>();
@@ -56,11 +68,14 @@ public class IedModelBrowser
 
         var functionalConstraint = FunctionalConstraint.SP;
 
-        if (groups.NumberOfGroups > 0 && groups.ActiveGroup == settingsGroup)
+        var strValConstraints = connection.GetDataDirectoryFC($"{logicalNodeReference}.StrVal");
+        var isSetMagSg = strValConstraints.Contains("setMag[SG]");
+
+        if (groups.NumberOfGroups > 0 && groups.ActiveGroup == settingsGroup && isSetMagSg)
         {
             functionalConstraint = FunctionalConstraint.SG;
         }
-        else if (groups.NumberOfGroups > 0 && groups.ActiveGroup != settingsGroup)
+        else if (groups.NumberOfGroups > 0 && groups.ActiveGroup != settingsGroup && isSetMagSg)
         {
             functionalConstraint = FunctionalConstraint.SE;
             connection.WriteValue($"{iedName}/LLN0.SGCB.EditSG", FunctionalConstraint.SP, new MmsValue((uint)settingsGroup)); 
@@ -86,7 +101,6 @@ public class IedModelBrowser
             string unitText = unitsCodes.GetValueOrDefault(units) ?? $"Unknown code {units}";
             resultUnitText = multiplierText + unitText;
         }
-        
         
         float? minVal = null;
         if (strValAttributes.Contains("minVal"))
@@ -117,6 +131,7 @@ public class IedModelBrowser
     public List<ProtectionSettings> ReadProtectionSettingsFromIed(IedConnection connection, string iedName, int? settingsGroup)
     {
         var resultList = new List<ProtectionSettings>();
+        var groupParser = new GroupParser();
         var logicalDevices = connection.GetServerDirectory();
         foreach (var device in logicalDevices)
         {
@@ -126,7 +141,11 @@ public class IedModelBrowser
                     .Select(node => new OnlineLogicalNode(device, node));
                 foreach (var node in logicalNodes)
                 {
-                    if (node.LogicalNodeName == "PTOC1" || node.LogicalNodeName == "PTOC2")
+                    var lnName = LogicalNodeName.Parse(node.LogicalNodeName);
+                    var groupName = groupParser.NodeGroupDefiner(lnName.LnClass);
+                    var dataObjInNode = connection.GetLogicalNodeDirectory($"{iedName}/{lnName.Name}", ACSIClass.ACSI_CLASS_DATA_OBJECT);
+                    var isStrVal = dataObjInNode.Contains("StrVal");
+                    if (groupName == LogicalNodeGroup.Protection && isStrVal)
                     {
                         resultList.Add(ReadProtectionSettings(connection, node.Reference, iedName, settingsGroup?? 1));
                     }

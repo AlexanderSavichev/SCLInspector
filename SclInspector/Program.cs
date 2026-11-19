@@ -1,6 +1,7 @@
 ﻿using SclInspector.Models;
 using SclInspector.Reporting;
 using IEC61850.Client;
+using IEC61850.Common;
 using SclInspector.Analysis;
 using SclInspector.Online;
 using SclInspector.Parsing;
@@ -17,6 +18,7 @@ var nodes = new List<OnlineDataObject>();
 var pathReport = "logical-nodes-report.txt";
 
 var sclReader = new SclReader();
+var groupParser = new GroupParser();
 var settingsAnalyzer = new ProtectionSettingsAnalyzer();
 var sclPath = args[0];
 var iedName = args[1];
@@ -48,8 +50,20 @@ try
     
     var groups = modelBrowser.CheckProtectionGroups(connection, logicalDeviceName);
     Console.WriteLine(groups);
-    
-    var logicalNodes = modelBrowser.ReadAllDataObjects(connection);
+
+    var logicalNodes = modelBrowser.ReadAllLogicalNodes(connection);
+    var logicalNodesWithDo = modelBrowser.ReadAllDataObjects(connection);
+
+    Console.WriteLine("Logical nodes of the server are:");
+    Console.WriteLine($"{"Logical device",-20} {"Node", -10} {"Prefix", 10} {"Class", -10} {"Inst", 10} {"Group", -25}");
+    foreach (var node in logicalNodes)
+    {
+        var lnNames = LogicalNodeName.Parse(node.LogicalNodeName);
+        var groupName = groupParser.NodeGroupDefiner(lnNames.LnClass);
+        Console.WriteLine($"{node.LogicalDeviceName,-20} " +
+                          $"{node.LogicalNodeName, -10} {lnNames.Prefix, 10} {lnNames.LnClass, -10} " +
+                          $"{lnNames.Inst, 10} {groupName, -25}");
+    }
 
     for (int group = 1; group <= Math.Max(1, groups.NumberOfGroups); group++)
     {
@@ -80,17 +94,9 @@ try
         }
     }
     
-    Console.WriteLine("Online logical objects:");
-    foreach (var node in logicalNodes)
+    foreach (var node in logicalNodesWithDo)
     {
-        Console.WriteLine($"{node.Reference}");
         nodes.Add(node);
-        if (node.DataObjectName == "AnIn1")
-        {
-            var analogValue =
-                modelBrowser.ReadAnalogMeasurement(connection, node.Reference);
-            Console.WriteLine(analogValue);
-        }
     }
 }
 catch (IedConnectionException ex)
@@ -106,7 +112,6 @@ catch (InvalidDataException ex)
 }
 
 reportWriter.Write(pathReport, nodes);
-Console.WriteLine(File.ReadAllText(pathReport));
 
 return 0;
 

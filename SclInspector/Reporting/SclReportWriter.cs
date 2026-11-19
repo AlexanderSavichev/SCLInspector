@@ -11,7 +11,7 @@ public class SclReportWriter
             writer.WriteLine("IED;AccessPoint;LDevice;LogicalNode");
             foreach (var node in nodes)
             {
-                writer.WriteLine(node.IedName +";" + node.AccessPointName + ";" + node.LDeviceInst + ";" + node.Name);
+                writer.WriteLine(node.IedName +";" + node.AccessPointName + ";" + node.LDeviceInst + ";" + node.LogicalNode.Name);
             }
         }
     }
